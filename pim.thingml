@@ -240,14 +240,12 @@ thing PIM includes GeneralMsg, TemperatureMsg, OnOffMsg, TimerMsgs {
 			}
 			
 			// Transitions of the composite state Running
-			transition -> Running
-			event givedelta:from_psm?set_delta
+			internal event givedelta:from_psm?set_delta
 			action do
 				// just forward the polling interval instructions to the PSM
 				delta = givedelta.dlta
 			end
-			transition -> Running
-			event fetch:from_psm?fetch_temp
+			internal event fetch:from_psm?fetch_temp
 			action do
 				// reporting the temperature value
 				to_psm!prompt("Last temperature: "+lasttemp)
