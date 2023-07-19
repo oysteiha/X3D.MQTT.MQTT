@@ -184,6 +184,11 @@ thing PIM includes GeneralMsg, TemperatureMsg, OnOffMsg, TimerMsgs {
 				action do
 					to_psm!SwitchOff(swoff.did)
 				end 
+				transition -> Thermostat
+				event set_temp:from_psm?set_temperature
+				action do
+					tmrature = set_temp.t
+				end
 			}
 			 // end Thermostat
 			
