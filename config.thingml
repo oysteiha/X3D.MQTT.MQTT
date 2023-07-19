@@ -1,0 +1,23 @@
+import "psm.thingml"
+import "pim.thingml"
+import "javatimer.thingml"
+
+configuration X3D_MQTT_MQTT {
+	instance T1:MQTTDriver
+	instance pim:PIM
+
+	// Timers
+	instance g_temp:TimerJava
+	instance g_humn:TimerJava
+	connector pim.guard_temperature =>g_temp.timer
+	connector pim.guard_human => g_humn.timer
+	
+	// PSM
+	connector T1.to_pim => pim.from_psm
+			
+	// PIM outwards 
+	connector pim.to_psm => T1.from_pim
+	
+	// Simulation
+	connector T1.MQTT over MQTT		
+}
