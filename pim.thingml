@@ -9,7 +9,7 @@ thing PIM includes GeneralMsg, TemperatureMsg, OnOffMsg, TimerMsgs {
 		sends add_thermometer, add_device, SwitchOn, SwitchOff, prompt
 	}
 	provided port from_psm {
-		receives heatOn, heatOff, set_temperature, set_delta, temperature
+		receives heatOn, heatOff, set_temperature, set_delta, temperature, fetch_temp
 	}
 
 	//timer ports - it does not hold to include TimerClient since it only has one port and therefore cannot distinguish between two timers
@@ -180,7 +180,7 @@ thing PIM includes GeneralMsg, TemperatureMsg, OnOffMsg, TimerMsgs {
 					to_psm!SwitchOn(swon.did)
 				end 
 				transition -> Off
-				event swoff:from_psm?heatOff
+				event swoff:from_psm?heatOff 
 				action do
 					to_psm!SwitchOff(swoff.did)
 				end 
@@ -245,6 +245,12 @@ thing PIM includes GeneralMsg, TemperatureMsg, OnOffMsg, TimerMsgs {
 			action do
 				// just forward the polling interval instructions to the PSM
 				delta = givedelta.dlta
+			end
+			transition -> Running
+			event fetch:from_psm?fetch_temp
+			action do
+				// reporting the temperature value
+				to_psm!prompt("Last temperature: "+lasttemp)
 			end
 			
 			

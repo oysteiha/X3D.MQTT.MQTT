@@ -15,6 +15,7 @@ thing fragment TemperatureMsg {
     message add_thermometer(id:Integer,txt:String);
     message set_temperature(t:Double);
 	message set_delta(dlta:Double)
+	message fetch_temp() // asking for the (single) temperature, return will be on human output
 }
 
 
