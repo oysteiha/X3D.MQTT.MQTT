@@ -15,12 +15,12 @@ protocol MQTT @serializer "JSON"
   @mqtt_subscribe_topic "CPS2021/tempoutput";
 
 thing MQTTDriver includes TemperatureMsg, OnOffMsg, GeneralMsg {
-	required port to_pim {sends temperature, heatOn, heatOff, set_temperature, set_delta}
+	required port to_pim {sends temperature, heatOn, heatOff, set_temperature, set_delta, fetch_temp}
 	provided port from_pim {receives add_thermometer, add_device, SwitchOn, SwitchOff, prompt}
 	
 	//Only one MQTT port to receive the sensor values
 	provided port MQTT {
-		receives temperature, heatOn, heatOff, set_temperature
+		receives temperature, heatOn, heatOff, set_temperature, set_delta, fetch_temp
 		sends SwitchOn,SwitchOff
 	}
 
@@ -157,6 +157,16 @@ thing MQTTDriver includes TemperatureMsg, OnOffMsg, GeneralMsg {
 			event st: MQTT?set_temperature
 			action do
 				to_pim!set_temperature(st.t)
+			end		
+			transition -> Idle
+			event givdlt: MQTT?set_delta
+			action do
+				to_pim!set_delta(givdlt.dlta)
+			end		
+			transition -> Idle
+			event ft: MQTT?fetch_temp
+			action do
+				to_pim!fetch_temp()
 			end		
 		}
 	}
