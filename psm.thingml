@@ -21,7 +21,7 @@ thing MQTTDriver includes TemperatureMsg, OnOffMsg, GeneralMsg {
 	//Only one MQTT port to receive the sensor values
 	provided port MQTT {
 		receives temperature, heatOn, heatOff, set_temperature, set_delta, fetch_temp
-		sends SwitchOn,SwitchOff
+		sends SwitchOn,SwitchOff,prompt
 	}
 
 	property thermometers:Integer[25] // Identifiers of the thermometers in the set
@@ -152,6 +152,7 @@ thing MQTTDriver includes TemperatureMsg, OnOffMsg, GeneralMsg {
 			event pr: from_pim?prompt
 			action do
 				println(pr.txt)
+				MQTT!prompt(pr.txt)
 			end		
 			transition -> Idle
 			event st: MQTT?set_temperature
