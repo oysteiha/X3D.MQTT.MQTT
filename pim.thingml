@@ -34,7 +34,7 @@ thing PIM includes GeneralMsg, TemperatureMsg, OnOffMsg, TimerMsgs {
 
 	statechart PIM_behavior init Build {
 		on entry do
-			println("Running The Room X3.MQTT.MQTT")
+			println("Running The Room X3D.MQTT.MQTT")
 		end
 		composite state Build init SetThermostat {
 		on entry guard_human!timer_start(30000) // 30s to start the thermostat 
