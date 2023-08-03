@@ -1,11 +1,5 @@
-thingml-gen/*.*
-*.prefs
-src/*.*
-target/*.*
-.metadata/*.*
-*.class
-*.java
-*.properties
-*.lst
-pom.xml
-X3D_MQTT_MQTT_merged.thingml
+thingml-gen/*
+*
+!.gitignore
+!/**/*.thingml
+*merged.thingml
